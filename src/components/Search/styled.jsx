@@ -45,3 +45,11 @@ export const Input = styled.input`
         width: 70%;
     }
 `;
+
+export const Error = styled.div`
+    color: red;
+    margin: 10px auto;
+    font-size: .8em;
+    text-align: center;
+    opacity: .5;
+`;
