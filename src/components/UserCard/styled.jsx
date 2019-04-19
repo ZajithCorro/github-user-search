@@ -31,7 +31,7 @@ export const Name = styled.code`
 
 export const Info = styled.div`
     text-align: center;
-    margin: 15px 40px 10px;
+    margin: 15px 40px 0;
 `;
 
 export const ItemInfo = styled.div`
