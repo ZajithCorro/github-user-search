@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Input, Button, Title, Error } from './styled';
 
-export default class Search extends Component {
-  state = { user: '', error: '' };
+export default function Search({ addUser }) {
+  const [value, setValue] = useState('');
+  const [error, setError] = useState('');
 
-  handleSubmit = async () => {
-    const { user } = this.state;
-
+  async function handleClick() {
     try {
-      const response = await fetch(`https://api.github.com/users/${user}`);
+      const response = await fetch(`https://api.github.com/users/${value}`);
       if (!response.ok) throw Error();
       const json = await response.json();
 
@@ -22,33 +21,29 @@ export default class Search extends Component {
         privateRepos: json.public_gists,
       };
 
-      this.props.addUser(newUser);
+      addUser(newUser);
 
-      this.setState({ user: '', error: '' });
+      setValue('');
+      setError('');
     } catch (error) {
-      this.setState({ error: `Usuario ${this.state.user} no encontrado` });
+      setError(`Usuario ${value} no encontrado`);
     }
-  };
-
-  handleInput = (e) => this.setState({ user: e.target.value });
-
-  render() {
-    const { error } = this.state;
-    return (
-      <Container>
-        <Title>Github User Search</Title>
-        <Input
-          type='text'
-          onChange={this.handleInput}
-          value={this.state.user}
-        />
-        <Button type='submit' onClick={this.handleSubmit}>
-          Search
-        </Button>
-        {error && <Error>{error}</Error>}
-      </Container>
-    );
   }
+
+  return (
+    <Container>
+      <Title>Github User Search</Title>
+      <Input
+        type='text'
+        onChange={(e) => setValue(e.target.value)}
+        value={value}
+      />
+      <Button type='submit' onClick={handleClick}>
+        Search
+      </Button>
+      {error && <Error>{error}</Error>}
+    </Container>
+  );
 }
 
 Search.propTypes = {
