@@ -1,21 +1,18 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Search from '../Search';
 import ListUser from '../ListUsers';
 
-class App extends Component {
-  state = { users: [] };
+export default function App() {
+  const [users, setUser] = useState([]);
 
-  addUser = (user) => this.setState({ users: [...this.state.users, user] });
-
-  render() {
-    const { users } = this.state;
-    return (
-      <React.Fragment>
-        <Search addUser={this.addUser} />
-        <ListUser users={users} />
-      </React.Fragment>
-    );
+  function addUser(user) {
+    setUser([...users, user]);
   }
-}
 
-export default App;
+  return (
+    <>
+      <Search addUser={addUser} />
+      <ListUser users={users} />
+    </>
+  );
+}
